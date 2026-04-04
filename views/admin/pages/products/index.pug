@@ -15,7 +15,7 @@ block main
                 .d-none.d-md-flex.flex-wrap.gap-2(
                     role="group" 
                     aria-label="Filter buttons"
-                )
+                ) 
                     +filter-status(filterStatus)
 
                 // Dropdown for small screens
@@ -58,37 +58,32 @@ block main
                     td= item && item.price
                     td
                         if (item && item.status === "active")
-                            span(class="badge bg-success") Còn hàng
+                            span(
+                                role="button"
+                                data-status=item.status
+                                data-id=item._id
+                                button-change-status
+                                class="badge bg-success"
+                            ) Còn hàng
                         else
-                            span(class="badge bg-danger") Dừng kinh doanh
+                            span(
+                                role="button"
+                                data-status=item.status
+                                data-id=item._id
+                                button-change-status
+                                class="badge bg-danger"
+                            ) Dừng kinh doanh
                     td(class="d-flex gap-2")
                         button(type="button" class="btn btn-warning btn-sm") Sửa
                         button(type="button" class="btn btn-danger btn-sm") Xóa
 
-    //- Pagination
-    if (typeof pagination !== 'undefined' && pagination && pagination.totalPage)
-        - const prefix = (typeof baseQuery !== 'undefined' && baseQuery) ? baseQuery + '&' : '';
-        nav
-            ul(class="pagination")
-                // First
-                li(class=`page-item ${pagination.currentPage === pagination.firstPage ? 'disabled' : ''}`)
-                    a(class="page-link" href=`?${prefix}page=${pagination.firstPage}`) Trang đầu
+    //- Pagination (mixin)
+    +pagination(pagination, baseQuery)
 
-                // Prev
-                li(class=`page-item ${!pagination.hasPrev ? 'disabled' : ''}`)
-                    a(class="page-link" href=`?${prefix}page=${pagination.hasPrev ? pagination.prevPage : pagination.currentPage}`) Trang trước
-
-                // Page numbers (window)
-                - for (var i = 0; i < pagination.pages.length; i++)
-                    - const p = pagination.pages[i];
-                    li(class=`page-item ${pagination.currentPage === p ? 'active' : ''}`)
-                        a(class="page-link" href=`?${prefix}page=${p}`)= p
-
-                // Next
-                li(class=`page-item ${!pagination.hasNext ? 'disabled' : ''}`)
-                    a(class="page-link" href=`?${prefix}page=${pagination.hasNext ? pagination.nextPage : pagination.currentPage}`) Kế tiếp
-
-                // Last
-                li(class=`page-item ${pagination.currentPage === pagination.lastPage ? 'disabled' : ''}`)
-                    a(class="page-link" href=`?${prefix}page=${pagination.lastPage}`) Trang cuối
-    //- End of pagination
+    form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`${prefixAdmin}/products/change-status/`
+    )
+    script(src="/admin/js/product.js")
