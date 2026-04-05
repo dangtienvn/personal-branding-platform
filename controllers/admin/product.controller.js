@@ -150,7 +150,11 @@ module.exports.delete = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
 
-    await Product.deleteOne({ _id: id });
+    // await Product.deleteOne({ _id: id });
+    await Product.updateOne({ _id: id }, { 
+        deleted: true,
+        deletedAt: new Date()
+    });
 
     return res.redirect(req.baseUrl || "/admin/products");
 };
