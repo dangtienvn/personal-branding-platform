@@ -137,6 +137,13 @@ module.exports.changeMulti = async (req, res) => {
             await Product.updateMany({ _id: { $in: idsArr } }, { status: "active" });
         } else if (type === "inactive") {
             await Product.updateMany({ _id: { $in: idsArr } }, { status: "inactive" });
+        } else if (type === "delete-all") {
+            await Product.updateMany({ _id: { $in: idsArr } }, { 
+                deleted: true,
+                deletedAt: new Date()
+            });
+        } else {
+            console.error("changeMulti: invalid type", type);
         }
     } catch (err) {
         console.error("changeMulti error:", err);

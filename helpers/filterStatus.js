@@ -6,12 +6,12 @@ module.exports = (query) => {
             class: "active"
         },
         {
-            name: "Còn hàng",
+            name: "Hoạt động",
             status: "active",
             class: ""
         },
         {
-            name: "Dừng kinh doanh",
+            name: "Dừng hoạt động",
             status: "inactive",
             class: ""
         }

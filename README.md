@@ -71,9 +71,7 @@ Describe how your system is structured.
 ---
 
 ## ⚙️ Technology Stack
-
 ### Frontend
-
 *  HTML 
 *  CSS 
 *  JS

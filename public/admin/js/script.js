@@ -133,6 +133,17 @@ if (formChangeMulti) {
             "input[name='id']:checked"
         );
 
+        // Get the selected action type from the form
+        const typeChange = e.target.elements.type.value;
+
+        if (typeChange === "delete-all") {
+            if (confirm("Bạn có chắc chắn muốn xóa tất cả sản phẩm đã chọn?")) {
+                formChangeMulti.action = "/admin/products/delete-multi";
+                formChangeMulti.submit();
+            }
+        }
+
+
         if (inputsChecked.length > 0) {
             let ids = [];
             inputsChecked.forEach((input) => {

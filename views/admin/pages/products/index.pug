@@ -82,7 +82,7 @@ block main
                                         data-id=item._id
                                         button-change-status
                                         class="badge bg-success"
-                                    ) Còn hàng
+                                    ) Hoạt động
                                 else
                                     span(
                                         role="button"
@@ -90,7 +90,7 @@ block main
                                         data-id=item._id
                                         button-change-status
                                         class="badge bg-danger"
-                                    ) Dừng kinh doanh
+                                    ) Dừng hoạt động
                             td(class="d-flex gap-2")
                                 button(type="button" class="btn btn-warning btn-sm") Sửa
                                 button(
@@ -112,4 +112,3 @@ block main
                 // include override field so server can treat POST as PATCH
                 input(type="hidden" name="_method" value="PATCH")
             script(src="/admin/js/product.js")
-            script(src="/admin/js/script.js")
