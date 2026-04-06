@@ -45,15 +45,15 @@ module.exports.index = async (req, res) => {
     objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItem;
 
     const countProducts = await Product.countDocuments(find);
-    objectPagination.totalPage = Math.max(1, Math.ceil(countProducts / objectPagination.limitItem));
+    const objectPagination = paginationHelper(req.query, countProducts, { 
+        limitDefault: 4, 
+        windowSize: 5 
+    });
 
-    // Clamp currentPage
-    if (objectPagination.currentPage > objectPagination.totalPage) {
-        objectPagination.currentPage = objectPagination.totalPage;
-        objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItem;
-    }
-
-    const products = await Product.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip);
+    const products = await Product.find(find)
+        .sort({ position: "desc" })
+        .limit(objectPagination.limitItem)
+        .skip(objectPagination.skip);
 
     // Build pagination pages window (max 5 pages visible)
     const windowSize = 5;
@@ -121,29 +121,61 @@ module.exports.changeMulti = async (req, res) => {
     const idsRaw = req.body.ids || "";
     const type = req.body.type;
 
-    // parse ids (comma-separated) into array of valid ObjectIds
-    const idsArr = idsRaw
-        .split(',')
-        .map(s => s.trim())
-        .filter(s => s.length > 0 && mongoose.Types.ObjectId.isValid(s));
-
-    if (idsArr.length === 0) {
-        console.error("changeMulti: no valid ids provided", idsRaw);
-        return res.redirect(req.baseUrl || "/admin/products");
-    }
-
+    // Handle different change types. For change-position we expect items like "<id> - <position>"
     try {
-        if (type === "active") {
-            await Product.updateMany({ _id: { $in: idsArr } }, { status: "active" });
-        } else if (type === "inactive") {
-            await Product.updateMany({ _id: { $in: idsArr } }, { status: "inactive" });
-        } else if (type === "delete-all") {
-            await Product.updateMany({ _id: { $in: idsArr } }, { 
-                deleted: true,
-                deletedAt: new Date()
-            });
+        if (type === "change-position") {
+            const items = idsRaw
+                .split(',')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+            if (items.length === 0) {
+                console.error("changeMulti: no items for change-position", idsRaw);
+                return res.redirect(req.baseUrl || "/admin/products");
+            }
+
+            for (const item of items) {
+                let [idPart, posPart] = item.split(" - ");
+                if (!idPart) continue;
+                idPart = idPart.trim();
+
+                if (!mongoose.Types.ObjectId.isValid(idPart)) {
+                    console.error("changeMulti: invalid ObjectId in change-position", idPart);
+                    continue;
+                }
+
+                const position = parseInt((posPart || "").toString().trim(), 10);
+                if (Number.isNaN(position)) {
+                    console.error("changeMulti: invalid position for id", idPart, posPart);
+                    continue;
+                }
+
+                await Product.updateOne({ _id: idPart }, { position: position });
+            }
         } else {
-            console.error("changeMulti: invalid type", type);
+            // parse ids (comma-separated) into array of valid ObjectIds for other actions
+            const idsArr = idsRaw
+                .split(',')
+                .map(s => s.trim())
+                .filter(s => s.length > 0 && mongoose.Types.ObjectId.isValid(s));
+
+            if (idsArr.length === 0) {
+                console.error("changeMulti: no valid ids provided", idsRaw);
+                return res.redirect(req.baseUrl || "/admin/products");
+            }
+
+            if (type === "active") {
+                await Product.updateMany({ _id: { $in: idsArr } }, { status: "active" });
+            } else if (type === "inactive") {
+                await Product.updateMany({ _id: { $in: idsArr } }, { status: "inactive" });
+            } else if (type === "delete-all") {
+                await Product.updateMany({ _id: { $in: idsArr } }, { 
+                    deleted: true,
+                    deletedAt: new Date()
+                });
+            } else {
+                console.error("changeMulti: invalid type", type);
+            }
         }
     } catch (err) {
         console.error("changeMulti error:", err);

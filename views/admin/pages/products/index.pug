@@ -55,6 +55,7 @@ block main
                         th Hình ảnh
                         th Tiêu đề
                         th Giá
+                        th Vị trí
                         th Trạng thái
                         th Hành động
                 tbody
@@ -74,6 +75,14 @@ block main
                                     | -
                             td= item && item.title
                             td= item && item.price
+                            td
+                                input(
+                                    type="number"
+                                    value=item.position
+                                    style="width: 60px;"
+                                    min="1"
+                                    name="position"
+                                )
                             td
                                 if (item && item.status === "active")
                                     span(

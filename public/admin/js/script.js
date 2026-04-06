@@ -136,6 +136,8 @@ if (formChangeMulti) {
         // Get the selected action type from the form
         const typeChange = e.target.elements.type.value;
 
+        const idsInput = formChangeMulti.querySelector("input[name='ids']");
+
         if (typeChange === "delete-all") {
             if (confirm("Bạn có chắc chắn muốn xóa tất cả sản phẩm đã chọn?")) {
                 formChangeMulti.action = "/admin/products/delete-multi";
@@ -148,11 +150,19 @@ if (formChangeMulti) {
             let ids = [];
             inputsChecked.forEach((input) => {
                 const id = input.value;
-                ids.push(ids);
+
+                if (typeChange === "change-position") {
+                    const position = input
+                        .closest("tr")
+                        .querySelector("input[name='position']");
+                        ids.push(`${id} - ${position.value}`);
+                } else {
+                    ids.push(id);
+                }
             });
 
             console.log(ids.join(","));
-            inputIds.value = ids.join(",");
+            if (idsInput) idsInput.value = ids.join(",");
             formChangeMulti.submit(); 
         } else {
             alert("Vui lòng chọn ít nhất một mục.");
