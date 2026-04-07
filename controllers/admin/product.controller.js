@@ -113,6 +113,8 @@ module.exports.changeStatus = async (req, res) => {
         console.error("changeStatus error:", err);
     }
 
+    req.flash("success", `Cập nhật trạng thái thành công!`);
+    
     return res.redirect(req.baseUrl || "/admin/products");
 }
 
@@ -181,12 +183,12 @@ module.exports.changeMulti = async (req, res) => {
         console.error("changeMulti error:", err);
     }
 
+    req.flash("success", `Cập nhật thành công!`);
     return res.redirect(req.baseUrl || "/admin/products");
 };
 
 // [DELETE] /admin/products/delete/:id
 module.exports.delete = async (req, res) => {
-    const status = req.params.status;
     const id = req.params.id;
 
     // await Product.deleteOne({ _id: id });
@@ -195,5 +197,6 @@ module.exports.delete = async (req, res) => {
         deletedAt: new Date()
     });
 
+    req.flash("success", `Xóa sản phẩm thành công!`);
     return res.redirect(req.baseUrl || "/admin/products");
 };

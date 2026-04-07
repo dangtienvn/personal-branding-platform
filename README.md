@@ -80,10 +80,10 @@ Describe how your system is structured.
 ### Backend
 * Nodejs
 * ExpressJS
-* Mongoose
 
 ### Database
 * MongoDB 
+* Mongoose
 
 ### Other Tools
 * npm
@@ -91,6 +91,7 @@ Describe how your system is structured.
 * nodemon 
 * method-override
 * body-parser
+* express-flash
 
 ---
 
