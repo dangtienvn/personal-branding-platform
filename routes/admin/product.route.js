@@ -17,4 +17,7 @@ router.post("/change-multi", controller.changeMulti);
 router.delete("/delete/:id", controller.delete);
 router.post("/delete/:id", controller.delete);
 
+router.get("/create", controller.create);
+router.post("/create", controller.create);
+
 module.exports = router;

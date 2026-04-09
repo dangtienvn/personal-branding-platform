@@ -87,3 +87,19 @@
     opacity: 1;
 }
 /* End Show-alert */
+
+/* Upload Image */
+.image-preview {
+    width: 150px;
+    height: auto;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+}
+
+.image-preview[src=""] {
+    display: none;
+}
+/* End Upload Image */

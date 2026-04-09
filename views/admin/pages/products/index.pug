@@ -45,84 +45,90 @@ block main
 
     .card.mb-3
         .card-header Danh sách
-        .card-body
-
-            +formChangeMulti(`${prefixAdmin}/products/change-multi`)
-            table(
-                class="table table-hover table-sm table-bordered"
-                    checkbox-multi
-            )
-                thead
-                    tr
-                        th
-                            input(type="checkbox" id="check-all")
-                        th STT
-                        th Hình ảnh
-                        th Tiêu đề
-                        th Giá
-                        th Vị trí
-                        th Trạng thái
-                        th Hành động
-                tbody
-                    each item, index in products
+            .card-body
+                .row 
+                    .col-8 
+                        +formChangeMulti(`${prefixAdmin}/products/change-multi`)
+                    .col-4
+                        a(
+                            href=`${prefixAdmin}/products/create`
+                            class="btn btn-outline-success btn-sm float-end"
+                        ) + Thêm mới
+                table(
+                    class="table table-hover table-sm table-bordered"
+                        checkbox-multi
+                )
+                    thead
                         tr
-                            td
-                                input(
-                                    type="checkbox" 
-                                    name="id" 
-                                    value=item.id
-                                )
-                            td= index + 1
-                            td
-                                if item && item.thumbnail
-                                    img(src=item.thumbnail alt=item.title width="100px" height="auto")
-                                else
-                                    | -
-                            td= item && item.title
-                            td= item && item.price
-                            td
-                                input(
-                                    type="number"
-                                    value=item.position
-                                    style="width: 60px;"
-                                    min="1"
-                                    name="position"
-                                )
-                            td
-                                if (item && item.status === "active")
-                                    span(
-                                        role="button"
-                                        data-status=item.status
-                                        data-id=item._id
-                                        button-change-status
-                                        class="badge bg-success"
-                                    ) Hoạt động
-                                else
-                                    span(
-                                        role="button"
-                                        data-status=item.status
-                                        data-id=item._id
-                                        button-change-status
-                                        class="badge bg-danger"
-                                    ) Dừng hoạt động
-                            td(class="d-flex gap-2")
-                                button(type="button" class="btn btn-warning btn-sm") Sửa
-                                button(
-                                    type="button" 
-                                    class="btn btn-danger btn-sm"
-                                    button-delete
-                                    data-id=item.id
-                                ) Xóa
+                            th
+                                input(type="checkbox" id="check-all")
+                            th STT
+                            th Hình ảnh
+                            th Tiêu đề
+                            th Giá
+                            th Vị trí
+                            th Trạng thái
+                            th Hành động
+                    tbody
+                        each item, index in products
+                            tr
+                                td
+                                    input(
+                                        type="checkbox" 
+                                        name="id" 
+                                        value=item.id
+                                    )
+                                td= index + 1
+                                td
+                                    if item && item.thumbnail
+                                        img(src=item.thumbnail alt=item.title width="100px" height="auto")
+                                    else
+                                        | -
+                                td= item && item.title
+                                td= item && item.price
+                                td
+                                    input(
+                                        type="number"
+                                        value=item.position
+                                        style="width: 60px;"
+                                        min="1"
+                                        name="position"
+                                    )
+                                td
+                                    if (item && item.status === "active")
+                                        span(
+                                            role="button"
+                                            data-status=item.status
+                                            data-id=item._id
+                                            button-change-status
+                                            class="badge bg-success"
+                                        ) Hoạt động
+                                    else
+                                        span(
+                                            role="button"
+                                            data-status=item.status
+                                            data-id=item._id
+                                            button-change-status
+                                            class="badge bg-danger"
+                                        ) Dừng hoạt động
+                                td(class="d-flex gap-2")
+                                    button(type="button" class="btn btn-warning btn-sm") Sửa
+                                    button(
+                                        type="button" 
+                                        class="btn btn-danger btn-sm"
+                                        button-delete
+                                        data-id=item.id
+                                    ) Xóa
 
-            //- Pagination (mixin)
-            +pagination(pagination, baseQuery)
+                //- Pagination (mixin)
+                +pagination(pagination, baseQuery)
 
-            form(
-                action=""
-                method="POST"
-                id="form-change-status"
-                data-path=`${prefixAdmin}/products/change-status/`
-            )
-                // include override field so server can treat POST as PATCH
-                input(type="hidden" name="_method" value="PATCH")
-            script(src="/admin/js/product.js")
+                form(
+                    action=""
+                    method="POST"
+                    id="form-change-status"
+                    data-path=`${prefixAdmin}/products/change-status/`
+                )
+                    // include override field so server can treat POST as PATCH
+                    input(type="hidden" name="_method" value="PATCH")
+                script(src="/admin/js/product.js")

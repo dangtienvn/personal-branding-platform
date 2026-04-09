@@ -55,3 +55,34 @@ if (buttonDelete.length > 0) {
     });
 }
 
+// Upload Image Preview
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage) {
+    const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
+    const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
+
+    uploadImageInput.addEventListener("change", (e) => {
+        const file = e.target.value;
+        if (file) {
+            uploadImagePreview.src = file;
+            uploadImagePreview.style.display = "block";
+        } else {
+            uploadImagePreview.src = "";
+            uploadImagePreview.style.display = "none";
+        }
+    });
+
+    // In case user pastes value and doesn't trigger 'change' immediately or it's prefilled
+    uploadImageInput.addEventListener("input", (e) => {
+        const file = e.target.value;
+        if (file) {
+            uploadImagePreview.src = file;
+            uploadImagePreview.style.display = "block";
+        } else {
+            uploadImagePreview.src = "";
+            uploadImagePreview.style.display = "none";
+        }
+    });
+}
+// End Upload Image Preview
+
