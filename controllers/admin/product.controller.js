@@ -99,23 +99,23 @@ module.exports.changeStatus = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         console.error("changeStatus: invalid ObjectId", id);
-        return res.redirect("back");
+        return res.redirect(req.get("Referrer") || "/admin/products");
     }
 
     if (!status || (status !== "active" && status !== "inactive")) {
         console.error("changeStatus: invalid status param", status);
-        return res.redirect(req.baseUrl || "/admin/products");
+        return res.redirect(req.get("Referrer") || "/admin/products");
     }
 
     try {
         await Product.updateOne({ _id: id }, { status: status });
+        req.flash("success", `Cập nhật trạng thái thành công cho sản phẩm!`);
     } catch (err) {
         console.error("changeStatus error:", err);
+        req.flash("error", "Có lỗi xảy ra khi cập nhật trạng thái.");
     }
-
-    req.flash("success", `Cập nhật trạng thái thành công!`);
     
-    return res.redirect(req.baseUrl || "/admin/products");
+    return res.redirect(req.get("Referrer") || "/admin/products");
 }
 
 // [PATCH] /admin/products/change-multi
@@ -133,7 +133,7 @@ module.exports.changeMulti = async (req, res) => {
 
             if (items.length === 0) {
                 console.error("changeMulti: no items for change-position", idsRaw);
-                return res.redirect(req.baseUrl || "/admin/products");
+                return res.redirect(req.get("Referrer") || "/admin/products");
             }
 
             for (const item of items) {
@@ -163,7 +163,7 @@ module.exports.changeMulti = async (req, res) => {
 
             if (idsArr.length === 0) {
                 console.error("changeMulti: no valid ids provided", idsRaw);
-                return res.redirect(req.baseUrl || "/admin/products");
+                return res.redirect(req.get("Referrer") || "/admin/products");
             }
 
             if (type === "active") {
@@ -184,7 +184,7 @@ module.exports.changeMulti = async (req, res) => {
     }
 
     req.flash("success", `Cập nhật thành công!`);
-    return res.redirect(req.baseUrl || "/admin/products");
+    return res.redirect(req.get("Referrer") || "/admin/products");
 };
 
 // [DELETE] /admin/products/delete/:id
@@ -198,5 +198,5 @@ module.exports.delete = async (req, res) => {
     });
 
     req.flash("success", `Xóa sản phẩm thành công!`);
-    return res.redirect(req.baseUrl || "/admin/products");
+    return res.redirect(req.get("Referrer") || "/admin/products");
 };

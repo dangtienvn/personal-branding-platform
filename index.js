@@ -47,11 +47,8 @@ app.use(session({
   cookie: { maxAge: 60000 }
 }));
 app.use(flash());
-// Expose flash messages to all views as `messages`
-app.use(function (req, res, next) {
-  res.locals.messages = req.flash();
-  next();
-});
+// `express-flash` automatically exposes flash messages to all views.
+// No need to manually assign res.locals.messages = req.flash() here.
 // Support HTTP verbs such as PUT or DELETE where the client doesn't support it
 app.use(methodOverride("_method"));
 

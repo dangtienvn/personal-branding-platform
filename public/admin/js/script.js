@@ -80,7 +80,6 @@ paginationButtons.forEach(button => {
 // Checkbox-multi
 const checkboxMulti = document.querySelector("[checkbox-multi]");
 if (checkboxMulti) {
-    // check-all is an element with id "check-all"
     const inputCheckAll = checkboxMulti.querySelector("#check-all");
     const inputsId = checkboxMulti.querySelectorAll("input[name='id']");
 
@@ -90,63 +89,44 @@ if (checkboxMulti) {
         });
     }
 
-    // When submitting the multi-change form, gather selected ids into the `ids` input
-    const formChangeMulti = document.getElementById("form-change-multi");
-    if (formChangeMulti) {
-        formChangeMulti.addEventListener("submit", (e) => {
-            const checked = Array.from(inputsId).filter(i => i.checked).map(i => i.value);
-            const idsInput = formChangeMulti.querySelector("input[name='ids']");
-            if (checked.length === 0) {
-                e.preventDefault();
-                alert("Vui lòng chọn ít nhất một mục.");
-                return;
-            }
-            if (idsInput) {
-                idsInput.value = checked.join(",");
-            }
-        });
-    }
-    // Update 'check-all' when individual checkboxes change, and set initial state
     if (inputsId.length > 0) {
         const updateCheckAllState = () => {
             const allChecked = Array.from(inputsId).every(i => i.checked);
             if (inputCheckAll) inputCheckAll.checked = allChecked;
         };
-
-        // initial state
         updateCheckAllState();
-
         inputsId.forEach((input) => {
             input.addEventListener("change", updateCheckAllState);
         });
     }
 }
+// End Checkbox-multi
 
 // Form change multi
-const formChangeMulti = document.querySelector("[form-change-multi]");
+const formChangeMulti = document.querySelector("#form-change-multi");
 if (formChangeMulti) {
     formChangeMulti.addEventListener("submit", (e) => {
-
         e.preventDefault();
+
         const checkboxMulti = document.querySelector("[checkbox-multi]");
         const inputsChecked = checkboxMulti.querySelectorAll(
             "input[name='id']:checked"
         );
 
-        // Get the selected action type from the form
         const typeChange = e.target.elements.type.value;
 
-        const idsInput = formChangeMulti.querySelector("input[name='ids']");
-
-        if (typeChange === "delete-all") {
-            if (confirm("Bạn có chắc chắn muốn xóa tất cả sản phẩm đã chọn?")) {
-                formChangeMulti.action = "/admin/products/delete-multi";
-                formChangeMulti.submit();
-            }
+        if (typeChange === "-- Chọn hành động --") {
+            alert("Vui lòng chọn một hành động.");
+            return;
         }
 
-
         if (inputsChecked.length > 0) {
+            if (typeChange === "delete-all") {
+                if (!confirm("Bạn có chắc chắn muốn xóa tất cả sản phẩm đã chọn?")) {
+                    return;
+                }
+            }
+
             let ids = [];
             inputsChecked.forEach((input) => {
                 const id = input.value;
@@ -155,39 +135,44 @@ if (formChangeMulti) {
                     const position = input
                         .closest("tr")
                         .querySelector("input[name='position']");
-                        ids.push(`${id} - ${position.value}`);
+                    ids.push(`${id} - ${position.value}`);
                 } else {
                     ids.push(id);
                 }
             });
 
-            console.log(ids.join(","));
-            if (idsInput) idsInput.value = ids.join(",");
-            formChangeMulti.submit(); 
+            const idsInput = formChangeMulti.querySelector("input[name='ids']");
+            if (idsInput) {
+                idsInput.value = ids.join(",");
+                formChangeMulti.submit();
+            }
         } else {
             alert("Vui lòng chọn ít nhất một mục.");
         }
     });
 }
+// End Form change multi
 
-// Show alert
-const showAlert = document.querySelector("[show-alert]");
-if (showAlert) {
-    const time = parseInt(showAlert.getAttribute("data-time")) || 3000;
-    const closeAlert = showAlert.querySelector("[close-alert]");
+// Show alert(s)
+const showAlerts = document.querySelectorAll("[show-alert]");
+if (showAlerts.length > 0) {
+    showAlerts.forEach((showAlert) => {
+        const time = parseInt(showAlert.getAttribute("data-time")) || 3000;
+        const closeAlert = showAlert.querySelector("[close-alert]");
 
-    setTimeout(() => {
-        showAlert.classList.add("alert-hidden");
-        // Remove after transition
-        setTimeout(() => {
-          showAlert.style.display = "none";
-        }, 500); 
-    }, time);
+        let timeoutId = setTimeout(() => {
+            showAlert.classList.add("alert-hidden");
+            setTimeout(() => {
+              showAlert.remove();
+            }, 500);
+        }, time);
 
-    if (closeAlert) {
-        closeAlert.addEventListener("click", () => {
-            showAlert.style.display = "none";
-        });
-    }
+        if (closeAlert) {
+            closeAlert.addEventListener("click", () => {
+                clearTimeout(timeoutId);
+                showAlert.remove();
+            });
+        }
+    });
 }
 // End Show alert

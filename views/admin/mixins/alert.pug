@@ -1,17 +1,21 @@
 mixin alert-success(time)
-    - if (messages.success)
-        .message.info
+    - if (messages && messages.success)
+        each msg in messages.success
             div(
-                class="alert alert-success"
+                class="alert alert-success alert-fixed"
                 show-alert
                 data-time=time
-            ) #{messages.success} <span close-alert>x</span>
+            )
+                span #{msg}
+                span(class="close-alert" close-alert) &times;
 
 mixin alert-error(time)
-    - if (messages.error)
-        .message.info
+    - if (messages && messages.error)
+        each msg in messages.error
             div(
-                class="alert alert-danger"
+                class="alert alert-danger alert-fixed"
                 show-alert
                 data-time=time
-            ) #{messages.error} <span close-alert>x</span>
+            )
+                span #{msg}
+                span(class="close-alert" close-alert) &times;

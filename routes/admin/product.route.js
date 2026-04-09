@@ -13,4 +13,8 @@ router.post("/change-status/:status/:id", controller.changeStatus);
 router.patch("/change-multi", controller.changeMulti);
 router.post("/change-multi", controller.changeMulti);
 
+// Delete product (supports method-override via POST)
+router.delete("/delete/:id", controller.delete);
+router.post("/delete/:id", controller.delete);
+
 module.exports = router;
