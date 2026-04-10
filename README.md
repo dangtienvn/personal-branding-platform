@@ -269,6 +269,7 @@ Describe how frontend communicates with backend:
 
 ## 👤 Author
 
-* [Name]: Đặng Tiến
-* [GitHub]: https://github.com/dangtienvn
-* [Email]: td2812009@gmail.com
+* **[Name]:** Đặng Tiến
+* **[Github]:** [dangtienvn](https://github.com/dangtienvn)
+* **[Email]:** [td2812009@gmail.com](mailto:td2812009@gmail.com)
+
