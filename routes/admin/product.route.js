@@ -18,6 +18,6 @@ router.delete("/delete/:id", controller.delete);
 router.post("/delete/:id", controller.delete);
 
 router.get("/create", controller.create);
-router.post("/create", controller.create);
+router.post("/create", controller.createPost);
 
 module.exports = router;

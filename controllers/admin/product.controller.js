@@ -203,38 +203,37 @@ module.exports.delete = async (req, res) => {
     return res.redirect(req.get("Referrer") || "/admin/products");
 };
 
-// [GET/POST] /admin/products/create
+// [GET] /admin/products/create
 module.exports.create = async (req, res) => {
-    if (req.method === "GET") {
-        return res.render("admin/pages/products/create", {
-            pageTitle: "Thêm mới sản phẩm"
-        });
-    } else if (req.method === "POST") {
-        req.body.price = parseInt(req.body.price);
-        req.body.discountPercentage = parseInt(req.body.discountPercentage);
-        req.body.stock = parseInt(req.body.stock);
+    res.render("admin/pages/products/create", {
+        pageTitle: "Thêm mới sản phẩm"
+    });
+};
 
-        if (req.body.position === "") {
-            const countProducts = await Product.countDocuments({});
-            req.body.position = countProducts + 1;
-        } else {
-            req.body.position = parseInt(req.body.position);
-        }
+// [POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
 
-        req.body.deleted = false;
-
-        try {
-            const newProduct = new Product(req.body);
-            await newProduct.save();
-
-            req.flash("success", "Thêm sản phẩm mới thành công!");
-            return res.redirect(`/${systemConfig.prefixAdmin}/products`);
-        } catch (err) {
-            console.error("Error creating product:", err);
-            req.flash("error", "Có lỗi xảy ra khi thêm sản phẩm mới.");
-            return res.redirect(`/${systemConfig.prefixAdmin}/products/create`);
-        }
+    if (req.body.position === "") {
+        const countProducts = await Product.countDocuments({});
+        req.body.position = countProducts + 1;
     } else {
-        return res.status(405).send("Method Not Allowed");
+        req.body.position = parseInt(req.body.position);
+    }
+
+    req.body.deleted = false;
+
+    try {
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+
+        req.flash("success", "Thêm sản phẩm mới thành công!");
+        return res.redirect(`${systemConfig.prefixAdmin}/products`);
+    } catch (err) {
+        console.error("Error creating product:", err);
+        req.flash("error", "Có lỗi xảy ra khi thêm sản phẩm mới.");
+        return res.redirect(`${systemConfig.prefixAdmin}/products/create`);
     }
 };

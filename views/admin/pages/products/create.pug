@@ -4,7 +4,7 @@ block main
     h1(class="mb-4") Thêm sản phẩm mới
 
     form(
-        action=`/${prefixAdmin}/products/create`
+        action=`${prefixAdmin}/products/create`
         id="form-create-product"
         method="POST"
     )
@@ -56,22 +56,14 @@ block main
                 value="0"
                 min="0"
             )
-        div(
-            class="form-group"
-            upload-image
-        )
+        div(class="form-group" upload-image)
             label(for="thumbnail") Ảnh
             input(
                 type="text"
-                class="form-control-file"
+                class="form-control"
                 id="thumbnail"
                 name="thumbnail"
                 upload-image-input
-            )
-            img(
-                src=""
-                class="image-preview"
-                upload-image-preview
             )
         div(class="form-group")
             label(for="position") Vị trí
