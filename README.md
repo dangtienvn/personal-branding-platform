@@ -92,6 +92,7 @@ Describe how your system is structured.
 * method-override
 * body-parser
 * express-flash
+* mongoose-slug-updater
 
 ---
 
