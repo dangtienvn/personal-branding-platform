@@ -60,29 +60,27 @@ const uploadImage = document.querySelector("[upload-image]");
 if (uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
     const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
+    const closeImagePreview = uploadImage.querySelector("[close-image-preview]");
 
     uploadImageInput.addEventListener("change", (e) => {
-        const file = e.target.value;
+        const file = e.target.files[0];
         if (file) {
-            uploadImagePreview.src = file;
+            uploadImagePreview.src = URL.createObjectURL(file);
             uploadImagePreview.style.display = "block";
-        } else {
-            uploadImagePreview.src = "";
-            uploadImagePreview.style.display = "none";
+            if(closeImagePreview) {
+                closeImagePreview.style.display = "inline-block";
+            }
         }
     });
 
-    // In case user pastes value and doesn't trigger 'change' immediately or it's prefilled
-    uploadImageInput.addEventListener("input", (e) => {
-        const file = e.target.value;
-        if (file) {
-            uploadImagePreview.src = file;
-            uploadImagePreview.style.display = "block";
-        } else {
+    if(closeImagePreview) {
+        closeImagePreview.addEventListener("click", () => {
+            uploadImageInput.value = "";
             uploadImagePreview.src = "";
             uploadImagePreview.style.display = "none";
-        }
-    });
+            closeImagePreview.style.display = "none";
+        });
+    }
 }
 // End Upload Image Preview
 

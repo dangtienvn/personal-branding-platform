@@ -76,6 +76,7 @@ paginationButtons.forEach(button => {
         }
     });
 });
+// End Pagination
 
 // Checkbox-multi
 const checkboxMulti = document.querySelector("[checkbox-multi]");

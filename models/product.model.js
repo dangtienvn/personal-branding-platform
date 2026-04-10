@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const slug = require("mongoose-slug-updater");
 
 mongoose.plugin(slug);
-// Tao moi bo khung
+
+// Define the Product schema
 const productSchema  = new mongoose.Schema({
     title: String,
     description: String,
