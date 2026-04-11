@@ -6,7 +6,7 @@ const storageHelper = require("../../helpers/storageMulter");
 const upload = multer({ storage: storageHelper() });
 
 const controller = require("../../controllers/admin/product.controller");
-
+const validate = require("../../validates/admin/product.validate");
 // Trang sản phẩm
 router.get("/", controller.index);
 
@@ -25,7 +25,8 @@ router.get("/create", controller.create);
 router.post(
   "/create",
   upload.single("thumbnail"),
+  validate.createPost,
   controller.createPost
 );
 
-module.exports = router;
+module.exports = router;
