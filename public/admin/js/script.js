@@ -123,7 +123,7 @@ if (formChangeMulti) {
 
         if (inputsChecked.length > 0) {
             if (typeChange === "delete-all") {
-                if (!confirm("Bạn có chắc chắn muốn xóa tất cả sản phẩm đã chọn?")) {
+                if (!confirm("Bạn có chắc chắn muốn xóa tất cả bản ghi đã chọn?")) {
                     return;
                 }
             }
@@ -177,3 +177,62 @@ if (showAlerts.length > 0) {
     });
 }
 // End Show alert
+
+// Change Status
+const buttonChangeStatus = document.querySelectorAll("[button-change-status]");
+if (buttonChangeStatus.length > 0) {
+    const formChangeStatus = document.querySelector("#form-change-status");
+    const path = formChangeStatus.getAttribute("data-path");
+    
+    buttonChangeStatus.forEach(button => {
+        button.addEventListener("click", () => {
+            const statusCurrent = button.getAttribute("data-status");
+            const id = button.getAttribute("data-id");
+
+            const statusChange = statusCurrent === "active" ? "inactive" : "active";
+            
+            const action = path + `${statusChange}/${id}`;
+            formChangeStatus.action = action;
+
+            let methodInput = formChangeStatus.querySelector("input[name='_method']");
+            if (!methodInput) {
+                methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                formChangeStatus.appendChild(methodInput);
+            }
+            methodInput.value = 'PATCH';
+            formChangeStatus.submit();  
+        });
+    });
+}
+// End Change Status
+
+// Upload Image Preview
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage) {
+    const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
+    const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
+    const closeImagePreview = uploadImage.querySelector("[close-image-preview]");
+
+    uploadImageInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            uploadImagePreview.src = URL.createObjectURL(file);
+            uploadImagePreview.style.display = "block";
+            if(closeImagePreview) {
+                closeImagePreview.style.display = "inline-block";
+            }
+        }
+    });
+
+    if(closeImagePreview) {
+        closeImagePreview.addEventListener("click", () => {
+            uploadImageInput.value = "";
+            uploadImagePreview.src = "";
+            uploadImagePreview.style.display = "none";
+            closeImagePreview.style.display = "none";
+        });
+    }
+}
+// End Upload Image Preview
