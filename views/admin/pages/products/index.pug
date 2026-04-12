@@ -116,11 +116,13 @@ block main
                                             class="badge bg-danger"
                                         ) Dừng hoạt động
                                 td(class="d-flex flex-column gap-1")
-                                    button(
+                                    a(
+                                        href=`${prefixAdmin}/products/edit/${item._id}`
                                         type="button" 
                                         class="btn btn-warning btn-sm"
                                     ) Sửa
-                                    button(
+                                    a(
+                                        href=`${prefixAdmin}/products/delete/${item._id}`
                                         type="button" 
                                         class="btn btn-danger btn-sm"
                                         button-delete

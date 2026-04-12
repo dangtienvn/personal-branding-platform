@@ -26,10 +26,9 @@
 }
 
 .body .main {
-    margin-left: 165px; /* 150px (độ rộng sider) + 15px (khoảng cách mong muốn) */
-    padding: 15px;      /* Dùng padding thay vì margin nếu muốn giãn cách bên trong */
-    width: calc(100% - 150px); /* Chiều rộng còn lại */
-    /* Bỏ position: relative và left nếu không cần thiết cho mục đích khác */
+    margin-left: 165px; 
+    padding: 15px;      
+    width: calc(100% - 150px); 
 }
 
 /* End Body */
@@ -96,7 +95,6 @@
     border: 1px solid #ddd;
     padding: 5px;
     border-radius: 5px;
-    display: none;
 }
 
 .image-preview[src=""] {
