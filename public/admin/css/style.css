@@ -109,7 +109,7 @@
 
 .table td img {
     width: 100px;
-    height: 60px;
+    height: 100px;
     object-fit: cover;
     border-radius: 5px;
     border: 1px solid #ddd;

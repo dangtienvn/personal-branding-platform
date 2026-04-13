@@ -251,3 +251,29 @@ module.exports.editPatch = async (req, res) => {
 
     res.redirect("back");
 };
+
+// [GET] /admin/products/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const find = {
+            _id: req.params.id,
+            deleted: false
+        };
+
+        const product = await Product.findOne(find);
+
+        if (!product) {
+            req.flash("error", "Không tìm thấy sản phẩm!");
+            return res.redirect(`${systemConfig.prefixAdmin}/products`);
+        }
+
+        res.render("admin/pages/products/detail", {
+            pageTitle: product.title,
+            product: product
+        });
+    } catch (error) {
+        console.error("Error fetching product detail:", error);
+        req.flash("error", "Có lỗi xảy ra khi lấy chi tiết sản phẩm!");
+        return res.redirect(`${systemConfig.prefixAdmin}/products`);
+    }
+};
