@@ -23,7 +23,7 @@ const port = process.env.PORT || 3000;
 /**
  * VIEW ENGINE SETUP
  */
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 /**
@@ -47,8 +47,10 @@ app.use(flash());
 // Support HTTP verbs such as PUT or DELETE where the client doesn't support it
 app.use(methodOverride("_method"));
 
+console.log(__dirname);
+
 // Serve static files (CSS, JS, Images) from the 'public' directory
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 /**
  * GLOBAL VARIABLES
