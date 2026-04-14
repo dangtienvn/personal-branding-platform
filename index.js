@@ -16,12 +16,7 @@ require("dotenv").config();
 const database = require("./config/database");
 const systemConfig = require("./config/system");
 
-// Connect to Database via internal config
-database.connect();
-
-// Direct connection using MONGO_URL from .env
-mongoose.connect(process.env.MONGO_URL);
-
+// Initialize app
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -71,9 +66,17 @@ route(app);      // Client-side routes
 routeAdmin(app); // Admin-side routes
 
 /**
- * SERVER INITIALIZATION
+ * SERVER INITIALIZATION - Wait for DB connection before starting
  */
-app.listen(port, () => {
-  console.log(`App is listening on port ${port}`);
-  console.log(`Access here: http://localhost:${port}`);
-});
+(async () => {
+  try {
+    await database.connect();
+    app.listen(port, () => {
+      console.log(`App is listening on port ${port}`);
+      console.log(`Access here: http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.log("Failed to start server:", error);
+    process.exit(1);
+  }
+})();
