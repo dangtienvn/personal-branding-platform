@@ -17,5 +17,6 @@ module.exports.createPost = (req, res, next) => {
         return;
     }
 
+    console.log("[product.validate] Validation passed");
     next();
 }

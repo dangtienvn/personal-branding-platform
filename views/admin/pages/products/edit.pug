@@ -18,11 +18,16 @@ block main
 
             div(class="card-body p-4")
                 form(
-                    action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
+                    action=`${prefixAdmin}/products/edit/${product.id}`
                     id="form-edit-product"
                     method="POST"
                     enctype="multipart/form-data"
                 )
+                    // Hidden method override for PATCH
+                    input(type="hidden" name="_method" value="PATCH")
+                    // Hidden field to preserve old thumbnail if no new image uploaded
+                    input(type="hidden" name="thumbnailOld" value=product.thumbnail)
+                    
                     div(class="row")
                         // Left Column: Basic Information
                         div(class="col-md-7")

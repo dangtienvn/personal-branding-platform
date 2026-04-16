@@ -2,7 +2,8 @@
 const buttonDelete = document.querySelectorAll("[button-delete]");
 if (buttonDelete.length > 0) {
     buttonDelete.forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (e) => {
+            e.preventDefault();
             const id = button.getAttribute("data-id");
             if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
                 // Create a form to submit the DELETE request

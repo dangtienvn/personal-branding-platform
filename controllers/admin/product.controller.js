@@ -179,6 +179,8 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
+    console.log("[create] Processing product creation...");
+    
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
@@ -190,8 +192,15 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
 
-    if (req.file) {
+    // Handle thumbnail - Cloudinary URL is set by uploadCloud middleware if successful
+    if (req.body.thumbnail) {
+        console.log("[create] Using Cloudinary thumbnail:", req.body.thumbnail);
+    } else if (req.file && req.file.filename) {
+        // Cloudinary failed or no credentials, use local storage
         req.body.thumbnail = `/uploads/${req.file.filename}`;
+        console.log("[create] Using local filename (Cloudinary unavailable):", req.body.thumbnail);
+    } else {
+        console.log("[create] Warning: No thumbnail provided");
     }
 
     req.body.deleted = false;
@@ -200,10 +209,11 @@ module.exports.createPost = async (req, res) => {
         const newProduct = new Product(req.body);
         await newProduct.save();
 
+        console.log("[create] Product saved successfully with ID:", newProduct._id);
         req.flash("success", "Thêm sản phẩm mới thành công!");
         return res.redirect(`${systemConfig.prefixAdmin}/products`);
     } catch (err) {
-        console.error("Error creating product:", err);
+        console.error("[create] Error creating product:", err);
         req.flash("error", "Có lỗi xảy ra khi thêm sản phẩm mới.");
         return res.redirect(`${systemConfig.prefixAdmin}/products/create`);
     }
@@ -229,8 +239,10 @@ module.exports.edit = async (req, res) => {
     }
 };
 
-// [PATCH] /admin/products/edit/:id
+// [PATCH] /admin/products/edit/:id (supports POST with method override)
 module.exports.editPatch = async (req, res) => {
+    console.log("[edit] Processing product update...");
+    
     const id = req.params.id;
 
     req.body.price = parseInt(req.body.price);
@@ -238,14 +250,42 @@ module.exports.editPatch = async (req, res) => {
     req.body.stock = parseInt(req.body.stock);
     req.body.position = parseInt(req.body.position);
 
-    if (req.file) {
+    // Handle thumbnail update logic
+    // Priority: 1) Cloudinary URL from middleware, 2) Old thumbnail if kept, 3) New local file, 4) Query DB
+    if (req.body.thumbnail) {
+        // Cloudinary upload succeeded or URL was set by middleware
+        console.log("[edit] New thumbnail from Cloudinary:", req.body.thumbnail);
+    } else if (req.body.thumbnailOld) {
+        // No new upload, preserve old thumbnail from hidden field
+        req.body.thumbnail = req.body.thumbnailOld;
+        console.log("[edit] Preserving old thumbnail from form field:", req.body.thumbnail);
+    } else if (req.file && req.file.filename) {
+        // New file uploaded but Cloudinary failed, use local filename
         req.body.thumbnail = `/uploads/${req.file.filename}`;
+        console.log("[edit] Using new local filename (Cloudinary failed):", req.body.thumbnail);
+    } else {
+        // Last resort: fetch from DB
+        console.log("[edit] No thumbnail provided, fetching from database...");
+        try {
+            const oldProduct = await Product.findById(id);
+            if (oldProduct && oldProduct.thumbnail) {
+                req.body.thumbnail = oldProduct.thumbnail;
+                console.log("[edit] Old thumbnail fetched from DB:", req.body.thumbnail);
+            }
+        } catch (err) {
+            console.error("[edit] Error fetching old product thumbnail:", err);
+        }
     }
+
+    // Remove the temporary thumbnailOld field from update
+    delete req.body.thumbnailOld;
 
     try {
         await Product.updateOne({ _id: id }, req.body);
+        console.log("[edit] Product updated successfully");
         req.flash("success", "Cập nhật sản phẩm thành công!");
     } catch (error) {
+        console.error("[edit] Error updating product:", error);
         req.flash("error", "Cập nhật sản phẩm thất bại!");
     }
 

@@ -43,7 +43,6 @@ block main
                                     href="#" 
                                     data-status=item.status
                                 )= item.name
-
     .card.mb-3
         .card-header Danh sách
             .card-body
@@ -131,7 +130,7 @@ block main
                                         type="button" 
                                         class="btn btn-danger btn-sm"
                                         button-delete
-                                        data-id=item.id
+                                        data-id=item._id
                                     ) Xóa
 
                 //- Pagination (mixin)
