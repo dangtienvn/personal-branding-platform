@@ -22,9 +22,22 @@ const productCategorySchema = new mongoose.Schema({
     unique: true
   }
 }, {
-  timestamps: true // Tự động thêm trường createdAt và updatedAt (https://mongoosejs.com/docs/timestamps.html)
+  timestamps: true
 });
 
 const ProductCategory = mongoose.model("ProductCategory", productCategorySchema, "products-category");
 
 module.exports = ProductCategory;
+
+_id
+title
+parent_id
+description
+thumbnail
+status
+position
+deleted
+deletedAt
+createdAt
+updatedAt
+slug
