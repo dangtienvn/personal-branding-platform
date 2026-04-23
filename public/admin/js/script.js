@@ -116,14 +116,14 @@ if (formChangeMulti) {
 
         const typeChange = e.target.elements.type.value;
 
-        if (typeChange === "-- Chọn hành động --") {
-            alert("Vui lòng chọn một hành động.");
+        if (typeChange === "-- Select action --") {
+            alert("Please select an action.");
             return;
         }
 
         if (inputsChecked.length > 0) {
             if (typeChange === "delete-all") {
-                if (!confirm("Bạn có chắc chắn muốn xóa tất cả bản ghi đã chọn?")) {
+                if (!confirm("Are you sure you want to delete all selected records?")) {
                     return;
                 }
             }
@@ -136,7 +136,7 @@ if (formChangeMulti) {
                     const position = input
                         .closest("tr")
                         .querySelector("input[name='position']");
-                    ids.push(`${id} - ${position.value}`);
+                    ids.push(`${id}-${position.value}`);
                 } else {
                     ids.push(id);
                 }
@@ -148,7 +148,7 @@ if (formChangeMulti) {
                 formChangeMulti.submit();
             }
         } else {
-            alert("Vui lòng chọn ít nhất một mục.");
+            alert("Please select at least one item.");
         }
     });
 }
@@ -191,22 +191,34 @@ if (buttonChangeStatus.length > 0) {
 
             const statusChange = statusCurrent === "active" ? "inactive" : "active";
             
-            const action = path + `${statusChange}/${id}`;
+            const action = path + `${statusChange}/${id}?_method=PATCH`;
             formChangeStatus.action = action;
-
-            let methodInput = formChangeStatus.querySelector("input[name='_method']");
-            if (!methodInput) {
-                methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                formChangeStatus.appendChild(methodInput);
-            }
-            methodInput.value = 'PATCH';
             formChangeStatus.submit();  
         });
     });
 }
 // End Change Status
+
+// Delete Item
+const buttonDelete = document.querySelectorAll("[button-delete]");
+if (buttonDelete.length > 0) {
+    const formDeleteItem = document.querySelector("#form-delete-item");
+    const path = formDeleteItem.getAttribute("data-path");
+
+    buttonDelete.forEach(button => {
+        button.addEventListener("click", () => {
+            const isConfirm = confirm("Are you sure you want to delete this item?");
+
+            if (isConfirm) {
+                const id = button.getAttribute("data-id");
+                const action = `${path}/${id}?_method=DELETE`;
+                formDeleteItem.action = action;
+                formDeleteItem.submit();
+            }
+        });
+    });
+}
+// End Delete Item
 
 // Upload Image Preview
 const uploadImage = document.querySelector("[upload-image]");

@@ -4,6 +4,7 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
+include ../../mixins/form-hidden.pug
 include ../../mixins/alert.pug
 
 block main
@@ -153,12 +154,5 @@ block main
                 //- Pagination (mixin)
                 +pagination(pagination, baseQuery)
 
-                form(
-                    action=""
-                    method="POST"
-                    id="form-change-status"
-                    data-path=`${prefixAdmin}/products/change-status/`
-                )
-                    // include override field so server can treat POST as PATCH
-                    input(type="hidden" name="_method" value="PATCH")
-                script(src="/admin/js/product.js")
+                +form-change-status(`${prefixAdmin}/products/change-status/`)
+                +form-delete-item(`${prefixAdmin}/products/delete`)
