@@ -7,7 +7,9 @@ const bodyParser = require("body-parser");
 const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const path = require('path');
 require("dotenv").config();
+
 
 /**
  * DATABASE & SYSTEM CONFIGURATION
@@ -42,11 +44,25 @@ app.use(session({
 }));
 app.use(flash());
 
-// Support HTTP method override (PUT/DELETE via POST)
-app.use(methodOverride("_method"));
 
 // Serve static files from 'public'
 app.use(express.static(`${__dirname}/../public`));
+
+// Serve TinyMCE from node_modules
+app.use('/tinymce', express.static(path.join(__dirname, '..', 'node_modules', 'tinymce')));
+
+// Support HTTP method override (PUT/DELETE via POST)
+app.use(methodOverride("_method"));
+
+// JSON content negotiation — REST Client / Postman / API testing support
+// If request sends `Accept: application/json`, res.render() returns JSON instead of HTML
+app.use((req, res, next) => {
+  if (req.headers['accept']?.includes('application/json')) {
+    const originalRender = res.render.bind(res);
+    res.render = (view, data = {}) => res.json({ view, ...data });
+  }
+  next();
+});
 
 /**
  * GLOBAL TEMPLATE VARIABLES
