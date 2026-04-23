@@ -11,9 +11,9 @@ block main
     +alert-success(3000)
     +alert-error(3000)
 
-    h1 Danh sách sản phẩm
+    h1 List Products
     .card.mb-3
-        .card-header Bộ lọc và Tìm kiếm
+        .card-header Filter and Search
         .card-body
             .d-flex.flex-wrap.align-items-center.gap-2
                 .input-group.input-group-sm.flex-grow-1.me-2
@@ -33,7 +33,7 @@ block main
                         id="filterDropdown" 
                         data-bs-toggle="dropdown" 
                         aria-expanded="false"
-                    ) Lọc
+                    ) Filter
                     ul.dropdown-menu(
                         aria-labelledby="filterDropdown"
                     )
@@ -43,8 +43,25 @@ block main
                                     href="#" 
                                     data-status=item.status
                                 )= item.name
+
+            .d-flex.align-items-center.gap-2.mt-2(sort)
+                label.form-label.mb-0.text-nowrap.fw-semibold(for="sort-select") Sort
+                select#sort-select.form-select.form-select-sm(
+                    name="sort"
+                    sort-select
+                    style="max-width: 220px;"
+                )
+                    option(value="") -- Default --
+                    option(value="position-desc") Position desc
+                    option(value="position-asc") Position asc
+                    option(value="price-desc") Price desc
+                    option(value="price-asc") Price asc
+                    option(value="title-asc") Title A → Z
+                    option(value="title-desc") Title Z → A
+                button.btn.btn-sm.btn-outline-danger(sort-clear) Delete
+
     .card.mb-3
-        .card-header Danh sách
+        .card-header List
             .card-body
                 .row 
                     .col-8 
@@ -53,7 +70,7 @@ block main
                         a(
                             href=`${prefixAdmin}/products/create`
                             class="btn btn-success fw-bold float-end"
-                        ) + Thêm mới
+                        ) + Create
                 table(
                     class="table table-hover table-sm table-bordered"
                         checkbox-multi
@@ -62,13 +79,13 @@ block main
                         tr
                             th
                                 input(type="checkbox" id="check-all")
-                            th STT
-                            th Hình ảnh
-                            th Tiêu đề
-                            th Giá
-                            th Vị trí
-                            th Trạng thái
-                            th Hành động
+                            th No.
+                            th Image
+                            th Title
+                            th Price
+                            th Position
+                            th Status
+                            th Actions
                     tbody
                         each item, index in products
                             tr
@@ -105,7 +122,7 @@ block main
                                             data-id=item._id
                                             button-change-status
                                             class="badge bg-success"
-                                        ) Hoạt động
+                                        ) Active
                                     else
                                         span(
                                             role="button"
@@ -113,25 +130,25 @@ block main
                                             data-id=item._id
                                             button-change-status
                                             class="badge bg-danger"
-                                        ) Dừng hoạt động
+                                        ) Inactive
                                 td(class="d-flex flex-column gap-1")
                                     a(
                                         href=`${prefixAdmin}/products/detail/${item._id}`
                                         type="button" 
                                         class="btn btn-secondary btn-sm"
-                                    ) Chi tiết
+                                    ) Detail
                                     a(
                                         href=`${prefixAdmin}/products/edit/${item._id}`
                                         type="button" 
                                         class="btn btn-warning btn-sm"
-                                    ) Sửa
+                                    ) Edit
                                     a(
                                         href=`${prefixAdmin}/products/delete/${item._id}`
                                         type="button" 
                                         class="btn btn-danger btn-sm"
                                         button-delete
                                         data-id=item._id
-                                    ) Xóa
+                                    ) Delete
 
                 //- Pagination (mixin)
                 +pagination(pagination, baseQuery)

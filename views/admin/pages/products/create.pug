@@ -11,10 +11,10 @@ block main
             div(class="card-header bg-primary text-white d-flex align-items-center justify-content-between")
                 h5(class="mb-0")
                     i(class="fas fa-plus-circle me-2")
-                    | Thêm sản phẩm mới
+                    | Create Product
                 a(href=`${prefixAdmin}/products` class="btn btn-sm btn-light")
                     i(class="fas fa-arrow-left me-1")
-                    | Quay lại
+                    | Back
 
             div(class="card-body")
                 form(
@@ -26,29 +26,29 @@ block main
                     div(class="row")
                         div(class="col-md-8")
                             div(class="form-group mb-3")
-                                label(for="title" class="form-label fw-bold") Tiêu đề
+                                label(for="title" class="form-label fw-bold") Header
                                 input(
                                     type="text"
                                     class="form-control"
                                     id="title"
                                     name="title"
-                                    placeholder="Nhập tên sản phẩm"
+                                    placeholder="Enter product name"
                                     required
                                 )
                             
                             div(class="form-group mb-3")
-                                label(for="desc" class="form-label fw-bold") Mô tả
+                                label(for="desc" class="form-label fw-bold") Description
                                 textarea(
-                                    class="form-control"
+                                    class="form-control textarea-mce"
                                     id="desc"
                                     name="description"
                                     rows="5"
-                                    placeholder="Mô tả chi tiết sản phẩm"
+                                    placeholder="Description"
                                 )
                         
                         div(class="col-md-4")
                             div(class="form-group mb-3" upload-image)
-                                label(for="thumbnail" class="form-label d-block fw-bold") Ảnh sản phẩm
+                                label(for="thumbnail" class="form-label d-block fw-bold") Product Image
                                 input(
                                     type="file"
                                     class="form-control mb-2"
@@ -67,20 +67,20 @@ block main
                                         i(class="fas fa-times")
 
                             div(class="form-group mb-3")
-                                label(for="position" class="form-label fw-bold") Vị trí
+                                label(for="position" class="form-label fw-bold") Position
                                 input(
                                     type="number"
                                     class="form-control"
                                     id="position"
                                     name="position"
-                                    placeholder="Tự động tăng"
+                                    placeholder="Auto increment"
                                     min="1"
                                 )
 
                     div(class="row")
                         div(class="col-md-4")
                             div(class="form-group mb-3")
-                                label(for="price" class="form-label fw-bold") Giá
+                                label(for="price" class="form-label fw-bold") Price
                                 div(class="input-group")
                                     span(class="input-group-text") $
                                     input(
@@ -93,7 +93,7 @@ block main
                                     )
                         div(class="col-md-4")
                             div(class="form-group mb-3")
-                                label(for="discount" class="form-label fw-bold") Giảm giá
+                                label(for="discount" class="form-label fw-bold") Discount
                                 div(class="input-group")
                                     input(
                                         type="number"
@@ -107,7 +107,7 @@ block main
                                     span(class="input-group-text") %
                         div(class="col-md-4")
                             div(class="form-group mb-3")
-                                label(for="stock" class="form-label fw-bold") Số lượng
+                                label(for="stock" class="form-label fw-bold") Stock
                                 input(
                                     type="number"
                                     class="form-control"
@@ -118,7 +118,7 @@ block main
                                 )
 
                     div(class="form-group mb-4")
-                        label(class="form-label d-block fw-bold") Trạng thái
+                        label(class="form-label d-block fw-bold") Status
                         div(class="form-check form-check-inline")
                             input(
                                 type="radio"
@@ -128,7 +128,7 @@ block main
                                 value="active"
                                 checked
                             )
-                            label(for="statusActive" class="form-check-label text-success") Hoạt động 
+                            label(for="statusActive" class="form-check-label text-success") Active 
                         div(class="form-check form-check-inline")
                             input(
                                 type="radio"
@@ -137,7 +137,7 @@ block main
                                 name="status"
                                 value="inactive"
                             )
-                            label(for="statusInActive" class="form-check-label text-danger") Dừng hoạt động
+                            label(for="statusInActive" class="form-check-label text-danger") Inactive
                     
                     hr
 
@@ -147,6 +147,6 @@ block main
                             class="btn btn-primary btn-lg px-5 shadow-sm"
                         ) 
                             i(class="fas fa-save me-2")
-                            | Tạo mới sản phẩm
+                            | Create Product
 
     script(src="/admin/js/product.js")
