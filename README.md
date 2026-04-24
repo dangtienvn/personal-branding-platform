@@ -7,16 +7,19 @@ NexBlog is a high-performance, full-stack personal blogging platform designed fo
 ## 🚀 Key Features
 
 ### 🖋️ Professional Content Management (CMS)
+
 - **Rich Content Authoring**: Full-featured admin interface for managing blog posts and articles.
 - **Hierarchical Taxonomy**: Advanced category management using recursive tree algorithms for deep content organization.
 - **Real-time Analytics**: Admin dashboard providing insights into post performance and system statistics.
 
 ### 📖 Optimized Reader Experience
+
 - **Lightning Fast Performance**: Leverages Next.js Server Components for near-instantaneous page loads.
 - **SEO First Architecture**: Fully optimized for search engines with dynamic meta tags and semantic HTML5 structure.
 - **Responsive & Modern UI**: A clean, distraction-free reading interface built with modern React patterns and Bootstrap 5.
 
 ### 🏗️ Technical Architecture
+
 - **Server-Side Rendering (SSR)**: Ensures content is indexed by Google immediately upon publication.
 - **Scalable Service Layer**: Decoupled business logic (Service Layer) from UI components for clean, maintainable engineering.
 - **Database Excellence**: High-performance interaction with PostgreSQL using advanced connection pooling techniques.
@@ -59,10 +62,12 @@ NexBlog is a high-performance, full-stack personal blogging platform designed fo
 ## ⚙️ Getting Started
 
 ### Prerequisites
+
 - Node.js 18.x or later
 - PostgreSQL Instance
 
 ### Installation
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/dangtienvn/personal-branding-platform.git
@@ -84,5 +89,14 @@ NexBlog is a high-performance, full-stack personal blogging platform designed fo
    ```
 
 ---
+
+## 📬 Contact Information
+
+If you have any questions or would like to discuss potential opportunities, feel free to reach out:
+
+- **Name**: Đặng Thanh Tiến
+- **Email**: [td2812009@gmail.com](mailto:[EMAIL_ADDRESS])
+- **Phone**: [0363226094](tel:0363226094)
+- **LinkedIn**: [https://www.linkedin.com/in/thanh-tien-dang/](https://www.linkedin.com/in/thanh-tien-dang/)
 
 Built for professionals who care about performance and clean code.
