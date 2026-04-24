@@ -22,7 +22,7 @@ export default function Header() {
                                         <Link href="/">Trang chủ</Link>
                                     </li>
                                     <li>
-                                        <Link href="/products">Sản phẩm</Link>
+                                        <Link href="/blogs">Bài viết</Link>
                                     </li>
                                 </ul>
                             </div>
