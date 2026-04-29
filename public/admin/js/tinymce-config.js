@@ -1,7 +1,7 @@
 tinymce.init({
     selector: "textarea.textarea-mce",
-    elementpath: false, 
-    branding: false,    
+    elementpath: false,
+    branding: false,
     plugins: "image upload link",
     toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | image upload link",
     file_picker_types: "image",

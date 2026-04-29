@@ -6,12 +6,12 @@ export default async function AdminCategoriesPage() {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 mb-4 text-gray-800">Danh Mục Sản Phẩm</h1>
-            
+            <h1 className="h3 mb-4 text-gray-800">Danh Mục Bài Viết</h1>
+
             <div className="card shadow mb-4">
                 <div className="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 className="m-0 font-weight-bold text-primary">Danh sách phân cấp</h6>
-                    <Link href="/admin/products/categories/create" className="btn btn-success btn-sm">
+                    <Link href="/admin/blogs/categories/create" className="btn btn-success btn-sm">
                         + Thêm mới danh mục
                     </Link>
                 </div>

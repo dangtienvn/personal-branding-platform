@@ -29,10 +29,11 @@ NexBlog is a high-performance, full-stack personal blogging platform designed fo
 ## 🛠️ Tech Stack
 
 - **Framework**: [Next.js](https://nextjs.org/) (App Router, Server Components, Server Actions)
-- **Database**: [PostgreSQL](https://www.postgresql.org/) (SQL optimization & pooling)
-- **UI/UX**: React, Bootstrap 5, Vanilla CSS
+- **UI**: [TailwindCSS](https://tailwindcss.com/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **Cache**: [Redis](https://redis.com/) (optional)
 - **Architecture**: Service Layer Pattern, RESTful API Design
-- **Deployment**: Vercel Optimized
+- **Deployment**: [Vercel](https://vercel.com/)
 
 ---
 

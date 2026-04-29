@@ -7,18 +7,14 @@ export const metadata = {
 
 export default function AdminLayout({ children }) {
   return (
-    <>
-        <head>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-          <link rel="stylesheet" href="/admin/css/style.css" />
-        </head>
-        <AdminHeader />
-        <div className="body">
-            <AdminSider />
-            <div className="main">
+    <div className="flex min-h-screen bg-gray-50">
+        <AdminSider />
+        <div className="flex-1 flex flex-col">
+            <AdminHeader />
+            <main className="p-6">
                 {children}
-            </div>
+            </main>
         </div>
-    </>
+    </div>
   );
 }
