@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+package-lock.json
 /.pnp
 .pnp.*
 .yarn/*
@@ -52,6 +53,7 @@ output.log
 
 # Uploaded files from Express Backend
 /public/uploads/
+/public/images/uploads/
 
 # OS generated files
 .DS_Store
